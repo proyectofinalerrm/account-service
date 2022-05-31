@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: account-service
+  profiles:
+    active: dev
+  cloud:
+    config:
+      uri: http://localhost:8095
+    function:
+      definition: inputWallet;updateAccountDebitCard
+    stream:
+      bindings:
+#        input-in-0:
+#          destination: iixp9xko-default
+
+        account-currentAmount-out-0:
+          destination: mw0qp7ns-account-currentAmount
+        inputWallet-in-0:
+          destination: mw0qp7ns-wallet-account
+        updateAccountDebitCard-in-0:
+          destination: mw0qp7ns-wallet-debiCardAsociated
+          
+       
+          
+  kafka:
+    bootstrap-servers: moped-01.srvs.cloudkafka.com:9094,moped-02.srvs.cloudkafka.com:9094,moped-03.srvs.cloudkafka.com:9094
+    properties:
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: SCRAM-SHA-256
+        jaas:
+           config: org.apache.kafka.common.security.scram.ScramLoginModule required username="mw0qp7ns" password="B3QZdEOoxokd2bX0vclUkuAGOxxygn7E";
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
